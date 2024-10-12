@@ -51,12 +51,14 @@ export default function ImageSlider({url,limit = 5,page = 1}) {
         className="arrow arrow-left"/>
         {
           images && images.length ?
-           images.map(imageItem=> (
+           images.map((imageItem, index)=> (
             <img 
              key={imageItem.id}
              alt={imageItem.download_url}
              src={imageItem.download_url}
-             className="current-image"
+             className={currentSlide === index ? 
+              "current-image" : 
+              "current-image hide-current-image"}
             />
            ))
           : null
@@ -69,7 +71,10 @@ export default function ImageSlider({url,limit = 5,page = 1}) {
             images && images.length ? 
             images.map((_,index)=> <button
             key={index}
-            className="current-indicator"
+            className={currentSlide === index ? 
+              "current-indicator" : 
+              "current-indicator inactive-indicator"}
+              onClick={() => setCurrentSlide(index)}
             ></button> )
             : null
           }
