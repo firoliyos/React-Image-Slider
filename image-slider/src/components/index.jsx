@@ -1,10 +1,11 @@
 import {useState, useEffect} from 'react'
 import {BsArrowLeftCircleFill, BsArrowRightCircle} from 'react-icons/bs'
+import './styles.css'
 
 export default function ImageSlider({url,limit = 5,page = 1}) {
 
   const [images, setImages] = useState([])
-  const [currentSlider, setCurrentSlider] = useState(0)
+  const [currentSlide, setCurrentSlide] = useState(0)
   const [errorMsg, setErrorMsg] = useState(null)
   const [loading, setLoading] = useState(false)
 
@@ -23,6 +24,13 @@ export default function ImageSlider({url,limit = 5,page = 1}) {
     }
   }
 
+  function handlePrevious() {
+    setCurrentSlide(currentSlide === 0 ? images.length -1 : currentSlide -1)
+  }
+
+  function handleNext() {
+    setCurrentSlide(currentSlide === images.length -1 ? 0 : currentSlide + 1)
+  }
   useEffect(() => {
     if(url !== '') fetchImages(url)
   }, [url])
@@ -38,7 +46,9 @@ export default function ImageSlider({url,limit = 5,page = 1}) {
 
   return(
      <div className="container">
-       <BsArrowLeftCircleFill className="arrow arrow-left"/>
+       <BsArrowLeftCircleFill 
+        onClick={handlePrevious}
+        className="arrow arrow-left"/>
         {
           images && images.length ?
            images.map(imageItem=> (
@@ -51,7 +61,9 @@ export default function ImageSlider({url,limit = 5,page = 1}) {
            ))
           : null
         }
-        <BsArrowRightCircle className="arrow arrow right" />
+        <BsArrowRightCircle 
+         onClick={handleNext}
+         className="arrow arrow right" />
         <span className="circle-indicators">
           {
             images && images.length ? 
